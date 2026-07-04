@@ -71,7 +71,7 @@ export const portfolioData = {
   pastRoles: [
     {
       name: 'Cixp Development Group',
-      role: 'Founder + Lead Developer | 50+ Members',
+      role: 'Founder + Lead Developer | 50+ Members (Retired)',
       description: 'Founded and led a development-focused community with project direction, staff structure, and technical support.',
     },
     {
