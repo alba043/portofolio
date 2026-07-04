@@ -43,7 +43,13 @@ npm.cmd run build
 
 ## Deploy
 
-Push to `main`. GitHub Actions builds the Vite app and deploys `dist` to GitHub Pages.
+Push to `main`. GitHub Actions builds the Vite app and publishes `dist` to the `gh-pages` branch.
+
+An owner or admin of `alba043/portofolio` must enable GitHub Pages once in repository settings:
+
+- Source: `Deploy from a branch`
+- Branch: `gh-pages`
+- Folder: `/ (root)`
 
 ## Lint
 

@@ -1,23 +1,21 @@
-name: Deploy to GitHub Pages
+name: Deploy to gh-pages
 
 on:
   push:
     branches: [main]
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: gh-pages
   cancel-in-progress: false
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,16 +25,33 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
+      - name: Publish dist to gh-pages branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          remote_url="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          if git ls-remote --exit-code --heads "$remote_url" gh-pages >/dev/null 2>&1; then
+            git clone --depth 1 --branch gh-pages "$remote_url" pages
+          else
+            mkdir pages
+            git -C pages init -b gh-pages
+            git -C pages remote add origin "$remote_url"
+          fi
+
+          rsync -a --delete --exclude ".git" dist/ pages/
+          touch pages/.nojekyll
+
+          git -C pages add -A
+          if git -C pages diff --cached --quiet; then
+            echo "No Pages changes to publish."
+            exit 0
+          fi
+
+          git -C pages commit -m "Deploy ${GITHUB_SHA}"
+          git -C pages push origin gh-pages
