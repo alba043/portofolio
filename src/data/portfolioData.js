@@ -14,7 +14,7 @@ export const portfolioData = {
     name: 'Cixp',
     title: 'Discord Staff, Server Leadership & Community Management',
     profileImage: {
-      src: assetPath('profile/cixp-avatar.svg'),
+      src: assetPath('profile/cixp-pfp.png'),
       alt: 'Cixp profile avatar',
     },
     subtitle: 'Moderation, administration, development, and staff leadership across active communities',
