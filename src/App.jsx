@@ -1,4 +1,6 @@
 import { portfolioData } from './data/portfolioData'
+import useScrollReveal from './hooks/useScrollReveal'
+import AmbientField from './components/AmbientField'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -8,8 +10,11 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 
 export default function App() {
+  useScrollReveal()
+
   return (
     <>
+      <AmbientField />
       <Nav
         brandImage={portfolioData.hero.profileImage}
         brandName={portfolioData.hero.name}

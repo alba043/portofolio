@@ -1,6 +1,10 @@
 function RoleCard({ index, role, tone }) {
   return (
-    <article className={`role-card role-card-${tone}`} style={{ '--role-index': index }}>
+    <article
+      className={`role-card role-card-${tone}`}
+      data-reveal="up"
+      style={{ '--role-index': index, '--reveal-delay': `${index * 80}ms` }}
+    >
       <div className="role-card-header">
         <span className="role-icon" aria-hidden="true">
           {role.icon ?? 'STAFF'}
@@ -30,7 +34,7 @@ export default function StaffRoles({ featuredRoles, pastRoles }) {
     <>
       <section className="section-band section-band-muted roles-section" id="staff-experience">
         <div className="section-inner">
-          <div className="section-heading section-heading-centered">
+          <div className="section-heading section-heading-centered" data-reveal="up">
             <p className="eyebrow">Experience highlights</p>
             <h2>SERVER LEADERSHIP</h2>
           </div>
@@ -44,7 +48,7 @@ export default function StaffRoles({ featuredRoles, pastRoles }) {
 
       <section className="section-band roles-section" id="past-roles">
         <div className="section-inner">
-          <div className="section-heading section-heading-centered">
+          <div className="section-heading section-heading-centered" data-reveal="up">
             <p className="eyebrow">More communities</p>
             <h2>OTHER ROLES I HAVE HELD</h2>
           </div>
