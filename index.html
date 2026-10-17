@@ -1,19 +1,635 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Cixp portfolio for Discord staff work, moderation, administration, development, and community management."
-    />
-    <link rel="icon" type="image/png" href="/portofolio/profile/cixp-pfp.png" />
-    <link rel="apple-touch-icon" href="/portofolio/profile/cixp-pfp.png" />
-    <title>Cixp | Discord Staff Portfolio</title>
-    <script type="module" crossorigin src="/portofolio/assets/index-dY7wOh4a.js"></script>
-    <link rel="stylesheet" crossorigin href="/portofolio/assets/index-Bx19zaop.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cixp | Minecraft & Discord Developer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgMain: '#121212',
+                        bgCard: '#1E1E1E',
+                        bgElevated: '#262626',
+                        textMain: '#E0E0E0',
+                        textMuted: '#9E9E9E',
+                        borderGray: '#333333',
+                        borderHover: '#666666',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #121212;
+            color: #E0E0E0;
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Subtle Dot Grid Background */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#2c2c2c 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Smooth Card Hover & Lift Effects */
+        .gray-card {
+            background-color: #1E1E1E;
+            border: 1px solid #333333;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                        border-color 0.25s ease, 
+                        box-shadow 0.25s ease;
+        }
+
+        .gray-card:hover {
+            transform: translateY(-4px);
+            border-color: #FFFFFF;
+            box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Pill Tag Hover */
+        .skill-pill {
+            background-color: #161616;
+            border: 1px solid #333333;
+            transition: all 0.2s ease;
+        }
+
+        .skill-pill:hover {
+            background-color: #FFFFFF;
+            color: #121212;
+            border-color: #FFFFFF;
+            transform: translateY(-2px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555555;
+        }
+    </style>
+</head>
+<body class="bg-grid-pattern min-h-screen flex flex-col justify-between selection:bg-white selection:text-[#121212]">
+
+    <!-- =====================================================================
+         1. FIXED MINIMAL NAVBAR
+    ====================================================================== -->
+    <header class="fixed top-0 left-0 right-0 z-40 bg-[#121212]/85 backdrop-blur-md border-b border-borderGray">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Brand / Alias -->
+            <a href="#" class="flex items-center gap-2.5 group">
+                <span class="w-8 h-8 rounded-lg bg-white text-[#121212] font-mono font-bold flex items-center justify-center text-sm group-hover:scale-105 transition-transform">
+                    &gt;_
+                </span>
+                <span id="nav-logo" class="font-bold text-lg tracking-tight text-white">Cixp</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-textMuted">
+                <a href="#experience" class="hover:text-white transition-colors">Experience</a>
+                <a href="#skills" class="hover:text-white transition-colors">Skills</a>
+                <a href="#projects" class="hover:text-white transition-colors">Projects</a>
+                <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Mobile Menu Trigger -->
+            <div class="flex items-center gap-2 md:hidden">
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-lg bg-bgCard border border-borderGray text-textMain hover:text-white" aria-label="Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-bgCard border-b border-borderGray px-4 pt-2 pb-4 space-y-2">
+            <a href="#experience" onclick="toggleMobileMenu()" class="block py-2 text-sm text-textMain hover:text-white">Experience</a>
+            <a href="#skills" onclick="toggleMobileMenu()" class="block py-2 text-sm text-textMain hover:text-white">Skills</a>
+            <a href="#projects" onclick="toggleMobileMenu()" class="block py-2 text-sm text-textMain hover:text-white">Projects</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block py-2 text-sm text-textMain hover:text-white">Contact</a>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         MAIN CONTENT CONTAINER
+    ====================================================================== -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-28 pb-20 w-full space-y-28">
+
+        <!-- 2. HERO SECTION -->
+        <section id="hero" class="pt-8 sm:pt-14 pb-6 flex flex-col items-center text-center">
+            <!-- Status Badge -->
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-bgCard border border-borderGray mb-6">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                </span>
+                <span id="hero-status" class="font-mono text-xs text-textMain tracking-wide">Available for Commissions &amp; Roles</span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 id="hero-headline" class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-5">
+                Hi, I'm Cixp
+            </h1>
+
+            <!-- Subheadline -->
+            <p id="hero-subheadline" class="text-lg sm:text-xl text-textMuted max-w-2xl font-medium leading-relaxed mb-4">
+                Specializing in High-Performance Paper Plugins &amp; Custom Discord Development
+            </p>
+
+            <!-- Short Bio -->
+            <p id="hero-bio" class="text-sm sm:text-base text-textMuted/80 max-w-xl leading-relaxed mb-9">
+                <!-- Populated by PORTFOLIO_CONFIG -->
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="#experience" class="px-6 py-3 rounded-lg bg-white text-[#121212] font-semibold text-sm hover:bg-gray-200 transition-all shadow-sm">
+                    View Experience
+                </a>
+                <a href="#contact" class="px-6 py-3 rounded-lg bg-bgCard text-textMain border border-borderGray font-semibold text-sm hover:border-white hover:text-white transition-all">
+                    Contact Me
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. EXPERIENCE (CURRENT & PAST POSITIONS) -->
+        <section id="experience" class="scroll-mt-24">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 pb-4 border-b border-borderGray">
+                <div>
+                    <span class="font-mono text-xs uppercase tracking-widest text-textMuted block mb-1">// 01. CAREER HISTORY</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Experience &amp; Positions</h2>
+                </div>
+                <p class="font-mono text-xs text-textMuted mt-2 sm:mt-0">Networks, servers &amp; development teams</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Current Positions Column -->
+                <div>
+                    <div class="flex items-center gap-2.5 mb-5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-white"></span>
+                        <h3 class="font-mono text-sm uppercase tracking-wider text-white font-semibold">Current Positions</h3>
+                        <span id="current-count" class="ml-auto font-mono text-xs px-2 py-0.5 rounded bg-bgCard border border-borderGray text-textMuted">0</span>
+                    </div>
+                    <div id="current-positions-list" class="space-y-4">
+                        <!-- Populated by PORTFOLIO_CONFIG -->
+                    </div>
+                </div>
+
+                <!-- Past Positions Column -->
+                <div>
+                    <div class="flex items-center gap-2.5 mb-5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#555555]"></span>
+                        <h3 class="font-mono text-sm uppercase tracking-wider text-textMuted font-semibold">Past Positions</h3>
+                        <span id="past-count" class="ml-auto font-mono text-xs px-2 py-0.5 rounded bg-bgCard border border-borderGray text-textMuted">0</span>
+                    </div>
+                    <div id="past-positions-list" class="space-y-4">
+                        <!-- Populated by PORTFOLIO_CONFIG -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. TECHNICAL SKILLS GRID -->
+        <section id="skills" class="scroll-mt-24">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 pb-4 border-b border-borderGray">
+                <div>
+                    <span class="font-mono text-xs uppercase tracking-widest text-textMuted block mb-1">// 02. TECH STACK</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Technical Skills</h2>
+                </div>
+                <p class="font-mono text-xs text-textMuted mt-2 sm:mt-0">APIs, frameworks &amp; infrastructure</p>
+            </div>
+
+            <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Populated by PORTFOLIO_CONFIG -->
+            </div>
+        </section>
+
+        <!-- 5. FEATURED PROJECTS -->
+        <section id="projects" class="scroll-mt-24">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 pb-4 border-b border-borderGray">
+                <div>
+                    <span class="font-mono text-xs uppercase tracking-widest text-textMuted block mb-1">// 03. PORTFOLIO</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">Featured Projects</h2>
+                </div>
+                <p class="font-mono text-xs text-textMuted mt-2 sm:mt-0">Custom Paper plugins &amp; Discord integrations</p>
+            </div>
+
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Populated by PORTFOLIO_CONFIG -->
+            </div>
+        </section>
+
+        <!-- 6. CONTACT / FOOTER SECTION -->
+        <section id="contact" class="scroll-mt-24 pt-4">
+            <div class="gray-card rounded-2xl p-8 sm:p-12 text-center max-w-3xl mx-auto">
+                <span class="font-mono text-xs uppercase tracking-widest text-textMuted block mb-2">// 04. GET IN TOUCH</span>
+                <h2 class="text-2xl sm:text-4xl font-bold text-white mb-4">Need a Plugin or Discord Bot?</h2>
+                <p class="text-textMuted text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
+                    Whether you're looking for a long-term developer for your Minecraft network, a custom high-performance Paper plugin, or seamless Minecraft-to-Discord syncing, feel free to reach out on Discord.
+                </p>
+
+                <!-- Copy Discord Username Button + Social Links -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button id="copy-discord-btn" onclick="copyDiscordUsername()" class="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-white text-[#121212] font-mono font-semibold text-sm hover:bg-gray-200 transition-all flex items-center justify-center gap-2.5 shadow-sm">
+                        <!-- Discord SVG Icon -->
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                        </svg>
+                        <span id="copy-discord-text">Copy Discord: cixp</span>
+                    </button>
+
+                    <a id="footer-github" href="#" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-5 py-3.5 rounded-lg bg-[#161616] border border-borderGray text-textMain hover:border-white hover:text-white transition-all font-mono text-sm flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                        </svg>
+                        GitHub
+                    </a>
+
+                    <a id="footer-modrinth" href="#" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-5 py-3.5 rounded-lg bg-[#161616] border border-borderGray text-textMain hover:border-white hover:text-white transition-all font-mono text-sm flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                        Modrinth
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="border-t border-borderGray py-8 px-4 sm:px-6 text-center text-xs font-mono text-textMuted">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>&copy; <span id="footer-year"></span> <span id="footer-name" class="text-white">Cixp</span>. All rights reserved.</p>
+            <p class="text-textMuted/70">Paper Plugins &amp; Discord Development</p>
+        </div>
+    </footer>
+
+    <!-- =====================================================================
+         PORTFOLIO CONFIGURATION & RENDER SCRIPT
+         Edit everything below inside PORTFOLIO_CONFIG just like a Minecraft
+         plugin's config.yml file! Visitors cannot see or edit this on the site.
+    ====================================================================== -->
+    <script>
+        // ===================================================================
+        // ⚙️ PORTFOLIO_CONFIG (EDIT YOUR WEBSITE DATA HERE IN CODE!)
+        // ===================================================================
+        const PORTFOLIO_CONFIG = {
+            // 1. General Profile & Hero Section
+            name: "Cixp",
+            statusBadge: "Available for Commissions & Roles",
+            headline: "Hi, I'm Cixp",
+            subheadline: "Specializing in High-Performance Paper Plugins & Custom Discord Development",
+            bio: "I build lag-free, scalable Minecraft server mechanics using the Paper API and bridge communities together with custom Discord bots, webhooks, and real-time cross-platform synchronization.",
+
+            // 2. Contact & Social Links (Leave as "" to hide the button in the footer)
+            discordUsername: "cixp", // Clicking "Copy Discord" copies this exact tag
+            githubUrl: "",
+            modrinthUrl: "https://modrinth.com/plugin/wind-charge-reset",
+
+            // 3. Current Positions (Left Column)
+            // TIP: To add a new position, copy one of the { ... } blocks below and paste it with a comma!
+            currentPositions: [
+                {
+                    server: "Copperbot",
+                    role: "Founder & Lead Developer",
+                    timeframe: "2026 - Present",
+                    description: "Built a widely used Discord partnership bot serving 18K+ total users across multiple servers."
+                },
+                {
+                    server: "OnlyVanilla",
+                    role: "Developer",
+                    timeframe: "2026 - Present",
+                    description: "Developed the entire Minecraft server network, including custom plugins linking Velocity and the main server alongside a custom Discord bot."
+                },
+                {
+                    server: "DivineSMP",
+                    role: "Development Manager",
+                    timeframe: "2026 - Present",
+                    description: "Architected the core Minecraft server setup, custom Velocity-to-server bridge plugins, and integrated Discord bot systems."
+                }
+            ],
+
+            // 4. Past Positions (Right Column)
+            // TIP: Move finished roles from currentPositions down here anytime!
+            pastPositions: [
+                {
+                    server: "Unstable SMP | Recreation",
+                    role: "Owner & Lead Developer",
+                    timeframe: "2025 - 2026",
+                    description: "Developed a complete all-in-one custom SMP core plugin and managed a community of over 7,000 members."
+                },
+                {
+                    server: "PrismFFA",
+                    role: "Owner & Lead Developer",
+                    timeframe: "2026 - 2026",
+                    description: "Created a full custom FFA & SMP plugin featuring custom weapons and combat mechanics for 100+ active members."
+                },
+                {
+                    server: "UnstablePVP",
+                    role: "Lead Developer",
+                    timeframe: "2025 - 2026",
+                    description: "Maintained arena combat plugins, resolved NMS packet bugs with PacketEvents, and automated staff punishment logs via Discord Webhooks."
+                }
+            ],
+
+            // 5. Technical Skills Categories
+            // TIP: Add or remove skill strings inside the "items" list!
+            skills: [
+                {
+                    category: "Minecraft Development",
+                    subtitle: "Server APIs & Internals",
+                    items: [
+                        "Paper API",
+                        "Spigot",
+                        "Bukkit",
+                        "Velocity",
+                        "NMS",
+                        "PacketEvents"
+                    ]
+                },
+                {
+                    category: "Discord Development",
+                    subtitle: "Bots & Integrations",
+                    items: [
+                        "JDA (Java Discord API)",
+                        "Discord.js",
+                        "TypeScript",
+                        "Custom Bots",
+                        "Webhooks"
+                    ]
+                },
+                {
+                    category: "Languages & Databases",
+                    subtitle: "Core Stack & Build Tools",
+                    items: [
+                        "Java",
+                        "JavaScript / TypeScript",
+                        "SQL (MySQL / SQLite)",
+                        "HeidiSQL",
+                        "Node.js",
+                        "Python",
+                        "Gradle / Maven"
+                    ]
+                }
+            ],
+
+            // 6. Featured Projects (Paper Plugins & Discord Bots)
+            // TIP: Supports github, modrinth, discord, and website links! Leave any out or set to "" to hide that button.
+            projects: [
+                {
+                    title: "Windcharge Reset — Minemen Windcharges",
+                    type: "Paper Plugin",
+                    description: "High-performance Paper plugin recreating Minemen Club's signature windcharge mechanics and knockback physics.",
+                    tags: ["Java", "Paper 1.21", "PacketEvents", "SQLite"],
+                    modrinth: "https://modrinth.com/plugin/wind-charge-reset"
+                },
+                {
+                    title: "Copperbot — Partnership Bot",
+                    type: "Discord Bot",
+                    description: "Widely used modular Discord partnership & automation bot featuring a web dashboard, server analytics, and slash commands.",
+                    tags: ["TypeScript", "Discord.js", "HeidiSQL", "Node.js"],
+                    discord: "https://discord.gg/5BXkSTqJux",
+                    website: "https://dash.copperbot.site"
+                }
+            ]
+        };
+
+        // ===================================================================
+        // 🚀 AUTOMATIC RENDER ENGINE (No need to edit below this line)
+        // ===================================================================
+
+        function escapeHtml(str) {
+            if (!str) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function renderPositionCard(pos, isCurrent) {
+            const badgeStyle = isCurrent
+                ? "bg-white text-[#121212] font-semibold"
+                : "bg-[#141414] text-textMuted border border-borderGray";
+
+            return `
+                <article class="gray-card rounded-xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+                            <h4 class="text-lg font-bold text-white tracking-tight">${escapeHtml(pos.server)}</h4>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded ${badgeStyle}">
+                                ${escapeHtml(pos.timeframe)}
+                            </span>
+                        </div>
+                        <div class="font-mono text-xs text-textMain/90 mb-3 flex items-center gap-1.5">
+                            <span class="text-textMuted">&gt;</span> ${escapeHtml(pos.role)}
+                        </div>
+                        <p class="text-sm text-textMuted leading-relaxed">
+                            ${escapeHtml(pos.description)}
+                        </p>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderPortfolio() {
+            // 1. Populate Hero & Branding
+            document.title = `${PORTFOLIO_CONFIG.name} | Minecraft & Discord Developer`;
+            document.getElementById("nav-logo").textContent = PORTFOLIO_CONFIG.name;
+            document.getElementById("hero-status").textContent = PORTFOLIO_CONFIG.statusBadge;
+            document.getElementById("hero-headline").textContent = PORTFOLIO_CONFIG.headline;
+            document.getElementById("hero-subheadline").textContent = PORTFOLIO_CONFIG.subheadline;
+            document.getElementById("hero-bio").textContent = PORTFOLIO_CONFIG.bio;
+
+            // 2. Populate Experience (Current & Past Positions)
+            const currentList = document.getElementById("current-positions-list");
+            const pastList = document.getElementById("past-positions-list");
+
+            const currentPositions = Array.isArray(PORTFOLIO_CONFIG.currentPositions) ? PORTFOLIO_CONFIG.currentPositions : [];
+            const pastPositions = Array.isArray(PORTFOLIO_CONFIG.pastPositions) ? PORTFOLIO_CONFIG.pastPositions : [];
+
+            document.getElementById("current-count").textContent = currentPositions.length;
+            document.getElementById("past-count").textContent = pastPositions.length;
+
+            currentList.innerHTML = currentPositions.length
+                ? currentPositions.map(pos => renderPositionCard(pos, true)).join("")
+                : `<div class="gray-card rounded-xl p-6 text-sm text-textMuted font-mono">No active positions listed.</div>`;
+
+            pastList.innerHTML = pastPositions.length
+                ? pastPositions.map(pos => renderPositionCard(pos, false)).join("")
+                : `<div class="gray-card rounded-xl p-6 text-sm text-textMuted font-mono">No past positions listed.</div>`;
+
+            // 3. Populate Technical Skills Grid
+            const skillsGrid = document.getElementById("skills-grid");
+            const skills = Array.isArray(PORTFOLIO_CONFIG.skills) ? PORTFOLIO_CONFIG.skills : [];
+
+            skillsGrid.innerHTML = skills.map(group => `
+                <div class="gray-card rounded-xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-base font-bold text-white">${escapeHtml(group.category)}</h3>
+                            <span class="font-mono text-xs text-textMuted">${(group.items || []).length}</span>
+                        </div>
+                        <p class="font-mono text-xs text-textMuted mb-5">${escapeHtml(group.subtitle || "")}</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${(group.items || []).map(skill => `
+                                <span class="skill-pill font-mono text-xs px-3 py-1.5 rounded-md text-textMain cursor-default">
+                                    ${escapeHtml(skill)}
+                                </span>
+                            `).join("")}
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+
+            // 4. Populate Featured Projects (Supports github, modrinth, discord, and website links)
+            const projectsGrid = document.getElementById("projects-grid");
+            const projects = Array.isArray(PORTFOLIO_CONFIG.projects) ? PORTFOLIO_CONFIG.projects : [];
+
+            projectsGrid.innerHTML = projects.map(project => `
+                <article class="gray-card rounded-xl p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                            <span class="font-mono text-xs px-2.5 py-1 rounded bg-[#141414] border border-borderGray text-textMuted">
+                                ${escapeHtml(project.type || "Project")}
+                            </span>
+                            <div class="flex flex-wrap items-center gap-2">
+                                ${project.github ? `
+                                    <a href="${escapeHtml(project.github)}" target="_blank" rel="noopener noreferrer" class="text-xs font-mono px-2.5 py-1 rounded bg-[#161616] border border-borderGray text-textMain hover:border-white hover:text-white transition-colors flex items-center gap-1">
+                                        GitHub &nearr;
+                                    </a>
+                                ` : ""}
+                                ${project.modrinth ? `
+                                    <a href="${escapeHtml(project.modrinth)}" target="_blank" rel="noopener noreferrer" class="text-xs font-mono px-2.5 py-1 rounded bg-[#161616] border border-borderGray text-textMain hover:border-white hover:text-white transition-colors flex items-center gap-1">
+                                        Modrinth &nearr;
+                                    </a>
+                                ` : ""}
+                                ${project.discord ? `
+                                    <a href="${escapeHtml(project.discord)}" target="_blank" rel="noopener noreferrer" class="text-xs font-mono px-2.5 py-1 rounded bg-[#161616] border border-borderGray text-textMain hover:border-white hover:text-white transition-colors flex items-center gap-1">
+                                        Discord &nearr;
+                                    </a>
+                                ` : ""}
+                                ${project.website ? `
+                                    <a href="${escapeHtml(project.website)}" target="_blank" rel="noopener noreferrer" class="text-xs font-mono px-2.5 py-1 rounded bg-[#161616] border border-borderGray text-textMain hover:border-white hover:text-white transition-colors flex items-center gap-1">
+                                        Website &nearr;
+                                    </a>
+                                ` : ""}
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">${escapeHtml(project.title)}</h3>
+                        <p class="text-sm text-textMuted leading-relaxed mb-5">
+                            ${escapeHtml(project.description)}
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1.5 pt-4 border-t border-borderGray/70">
+                        ${(project.tags || []).map(tag => `
+                            <span class="font-mono text-[11px] px-2.5 py-0.5 rounded bg-[#141414] text-textMain border border-borderGray">
+                                #${escapeHtml(tag)}
+                            </span>
+                        `).join("")}
+                    </div>
+                </article>
+            `).join("");
+
+            // 5. Populate Contact & Footer
+            document.getElementById("copy-discord-text").textContent = `Copy Discord: ${PORTFOLIO_CONFIG.discordUsername}`;
+            
+            const githubBtn = document.getElementById("footer-github");
+            if (PORTFOLIO_CONFIG.githubUrl) {
+                githubBtn.href = PORTFOLIO_CONFIG.githubUrl;
+                githubBtn.classList.remove("hidden");
+            } else {
+                githubBtn.classList.add("hidden");
+            }
+
+            const modrinthBtn = document.getElementById("footer-modrinth");
+            if (PORTFOLIO_CONFIG.modrinthUrl) {
+                modrinthBtn.href = PORTFOLIO_CONFIG.modrinthUrl;
+                modrinthBtn.classList.remove("hidden");
+            } else {
+                modrinthBtn.classList.add("hidden");
+            }
+
+            document.getElementById("footer-name").textContent = PORTFOLIO_CONFIG.name;
+            document.getElementById("footer-year").textContent = new Date().getFullYear();
+        }
+
+        // Clipboard Helper (Compatible with all browsers and iframes)
+        function copyTextToClipboard(text, onSuccess) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(onSuccess).catch(() => fallbackCopy(text, onSuccess));
+            } else {
+                fallbackCopy(text, onSuccess);
+            }
+        }
+
+        function fallbackCopy(text, onSuccess) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand("copy");
+                if (onSuccess) onSuccess();
+            } catch (err) {
+                console.error("Clipboard copy failed", err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Copy Discord Username Handler
+        function copyDiscordUsername() {
+            const btnText = document.getElementById("copy-discord-text");
+            const btn = document.getElementById("copy-discord-btn");
+
+            copyTextToClipboard(PORTFOLIO_CONFIG.discordUsername, () => {
+                btnText.textContent = "Copied!";
+                btn.classList.add("bg-gray-200");
+                setTimeout(() => {
+                    btnText.textContent = `Copy Discord: ${PORTFOLIO_CONFIG.discordUsername}`;
+                    btn.classList.remove("bg-gray-200");
+                }, 2000);
+            });
+        }
+
+        // Mobile Navbar Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById("mobile-menu");
+            menu.classList.toggle("hidden");
+        }
+
+        // Initialize on Window Load
+        window.addEventListener("DOMContentLoaded", renderPortfolio);
+    </script>
+</body>
 </html>
